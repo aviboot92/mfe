@@ -1,18 +1,48 @@
 'use client';
 
-import React, { lazy, Suspense } from 'react';
-import { mf } from '../lib/federation';
+import { useEffect, useState } from 'react';
 
-const RemoteUsers = lazy(() =>
-  mf.loadRemote('users_mfe/Users').then((module) => ({
-    default: module.default,
-  })),
-);
+type RemoteUsersComponent = React.ComponentType;
 
-export default function RemoteUsersContainer() {
-  return (
-    <Suspense fallback={<p>Loading Users MFE...</p>}>
-      <RemoteUsers />
-    </Suspense>
-  );
+export default function RemoteUsers() {
+  const [Users, setUsers] = useState<RemoteUsersComponent | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadUsers() {
+      try {
+        const { mf } = await import('../lib/federation');
+
+        const module = await mf.loadRemote('users_mfe/Users');
+
+        if (mounted) {
+          setUsers(() => module.default as RemoteUsersComponent);
+        }
+      } catch (err) {
+        console.error('Failed to load Users MFE:', err);
+
+        if (mounted) {
+          setError('Failed to load Users MFE');
+        }
+      }
+    }
+
+    loadUsers();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (!Users) {
+    return <p>Loading Users MFE...</p>;
+  }
+
+  return <Users />;
 }
