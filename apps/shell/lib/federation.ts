@@ -17,19 +17,28 @@ export const mf = createInstance({
   ],
   shared: {
     react: {
-      singleton: true,
-      eager: true,
-      requiredVersion: reactVersion,
+      version: reactVersion,
+      shareConfig: {
+        singleton: true,
+        eager: true,
+        requiredVersion: reactVersion,
+      },
     },
     'react-dom': {
-      singleton: true,
-      eager: true,
-      requiredVersion: reactVersion,
+      version: reactVersion,
+      shareConfig: {
+        singleton: true,
+        eager: true,
+        requiredVersion: reactVersion,
+      },
     },
     'react-dom/client': {
-      singleton: true,
-      eager: true,
-      requiredVersion: reactVersion,
+      version: reactVersion,
+      shareConfig: {
+        singleton: true,
+        eager: true,
+        requiredVersion: reactVersion,
+      },
     },
   },
 });
