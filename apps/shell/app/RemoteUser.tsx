@@ -15,10 +15,16 @@ export default function RemoteUsers() {
       try {
         const { mf } = await import('../lib/federation');
 
-        const module = await mf.loadRemote('users_mfe/Users');
+        const usersModule = (await mf.loadRemote('users_mfe/Users')) as {
+          default?: RemoteUsersComponent;
+        };
+
+        const UsersComponent =
+          usersModule.default ??
+          (usersModule as unknown as RemoteUsersComponent);
 
         if (mounted) {
-          setUsers(() => module.default as RemoteUsersComponent);
+          setUsers(() => UsersComponent);
         }
       } catch (err) {
         console.error('Failed to load Users MFE:', err);
