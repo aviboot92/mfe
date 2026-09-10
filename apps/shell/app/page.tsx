@@ -1,14 +1,15 @@
-import Navigation from "./components/Navigation";
+import Navigation from './components/Navigation';
+import RemoteDashboard from './Remotedashboard';
+import RemoteUser from './RemoteUser';
 
 export default function Home() {
   return (
     <main>
       <h1>MFE SaaS</h1>
-
-      <Navigation />
-
       <p>Welcome to MFE SaaS</p>
-      <p>This is the Shell application.</p>
+      <Navigation />
+      <RemoteUser />
+      <RemoteDashboard />
     </main>
   );
 }
