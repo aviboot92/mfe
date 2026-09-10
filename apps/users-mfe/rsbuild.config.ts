@@ -2,6 +2,8 @@ import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginModuleFederation } from '@module-federation/rsbuild-plugin';
 
+const reactVersion = '^19.3.0';
+
 export default defineConfig({
   server: {
     port: 3002,
@@ -20,10 +22,17 @@ export default defineConfig({
         react: {
           singleton: true,
           eager: true,
+          requiredVersion: reactVersion,
         },
         'react-dom': {
           singleton: true,
           eager: true,
+          requiredVersion: reactVersion,
+        },
+        'react-dom/client': {
+          singleton: true,
+          eager: true,
+          requiredVersion: reactVersion,
         },
       },
     }),

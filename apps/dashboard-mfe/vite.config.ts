@@ -1,29 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { federation } from '@module-federation/vite';
+import mfConfig from './module-federation.config.ts';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    federation({
-      name: 'dashboard_mfe',
-      filename: 'remoteEntry.js',
-      exposes: {
-        './Dashboard': './src/App.tsx',
-      },
-      shared: {
-        react: {
-          singleton: true,
-        },
-        'react-dom': {
-          singleton: true,
-        },
-      },
-    }),
-  ],
   server: {
     port: 3003,
+    origin: 'http://localhost:3003',
   },
+
+  base: 'http://localhost:3003/',
+
+  plugins: [react(), federation(mfConfig)],
 
   build: {
     target: 'esnext',
